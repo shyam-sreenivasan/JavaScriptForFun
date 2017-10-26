@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      #myobject{
+          width:20px;
+          height: 20px;
+          border-radius: 50%;
+          background-color: #000e23;
+          position: absolute;
+          top:50vh;
+          left:0vw;
+      }
+    #centerObj{
+      width:20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #ff0123;
+      position: absolute;
+      top:50px;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="myobject"></div>
+  <div id="centerObj"></div>
+  <button type="button" name="button" onclick="sinWave()">Sinusoidal Motion</button>
+  <button type="button" name="button" onclick = "circle()">Circular Motion</button>
+  <script type="text/javascript">
+      var xpos = 0;
+      var ypos = 0;
+      var radius = 10;
+      var obj = document.getElementById('myobject');
+      var decToIncFlag = false;
+      var incToDecFlag = false;
+      var yposprev=0;
+      var centerObj = document.getElementById("centerObj");
+      var interSine;
+      var interCircle;
+      function reset(){
+        xpos = 0;
+        ypos = 0;
+      }
+    function sinWave(){
+      reset();
+      clearInterval(interCircle);
+      clearInterval(interSine);
+       interSine = setInterval(function(){
+             ypos = 10*(Math.sin(-0.1*xpos)) + 20;
+             obj.style.top = ypos+"vw";
+             obj.style.left = xpos+"vw";
+            //  if(yposprev < ypos){
+            //    incToDecFlag = true;
+            //  }
+             //
+            //  if(incToDecFlag){
+            //    if(yposprev > ypos){
+            //       clearInterval(inter);
+            //    }
+             //
+            //  }
+             console.log(xpos+":"+ypos);
+             if(xpos >= 100){
+               clearInterval(interSine);
+             }
+             xpos += 0.1;
+             yposprev = ypos;
+       },10);
+    }
+
+    function circle(){
+      clearInterval(interCircle);
+      clearInterval(interSine);
+    var centerX = window.outerWidth/2;
+    var centerY =window.outerHeight/2;
+    centerObj.style.top = centerY+"px";
+    centerObj.style.left = centerX +"px";
+      //creating center object
+    var rad = 100;
+      xpos = centerX - rad;
+      ypos = centerY;
+      obj.style.top = ypos+"px";
+      obj.style.left = xpos +"px";
+  var xrev = centerX+rad-1;
+      //circleAnimation
+
+      var interCircle = setInterval(function () {
+        if(xpos < (centerX+rad)){
+          ypos = centerY - Math.sqrt((100*100) - (centerX - xpos)*(centerX-xpos));
+          obj.style.top = ypos+"px";
+          obj.style.left = xpos +"px";
+          xpos += 0.5;
+          xrev = xpos;
+        }else{
+          // clearInterval(inter);
+          if(xrev > centerX -rad){
+            ypos = centerY + Math.sqrt((100*100) - (centerX - xrev)*(centerX-xrev));
+
+            obj.style.top = ypos+"px";
+            obj.style.left = xrev +"px";
+              xrev -=0.5;
+          }else{
+            xpos =xrev;
+            xrev = centerX +rad;
+            // clearInterval(interCircle);
+          }
+
+        }
+
+      }, 1);
+    }
+    // circle();
+// sinWave();
+  //  circle();
+  </script>
+  </body>
+</html>
